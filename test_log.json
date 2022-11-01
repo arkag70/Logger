@@ -1,0 +1,23 @@
+[
+	{
+		"Timestamp" : "Wed Nov  2 00:34:28 2022",
+		"Severity" : "FATAL",
+		"file_name" : "test",
+		"Thread ID" : "46016",
+		"Message" : "Hello my name is Arka"
+	},
+	{
+		"Timestamp" : "Wed Nov  2 00:34:28 2022",
+		"Severity" : "FATAL",
+		"file_name" : "test",
+		"Thread ID" : "46016",
+		"Message" : "I am 1605263391 years old"
+	},
+	{
+		"Timestamp" : "Wed Nov  2 00:34:28 2022",
+		"Severity" : "FATAL",
+		"file_name" : "test",
+		"Thread ID" : "46016",
+		"Message" : "I stay in Kolkata"
+	}
+]
