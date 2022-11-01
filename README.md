@@ -1,3 +1,6 @@
+This is header only library that logs data into a JSON file
+
+```json
 [
 	{
 		"Timestamp" : "Wed Nov  2 00:47:51 2022",
@@ -21,3 +24,4 @@
 		"Message" : "I stay in Kolkata"
 	}
 ]
+```

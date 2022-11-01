@@ -6,7 +6,7 @@ int main(){
     int age{26};
     const char *place = "Kolkata";
     Logger::Fatal("Hello my name is %s", name);
-    Logger::Fatal("I am %d years old", name);
+    Logger::Fatal("I am %d years old", age);
     Logger::Fatal("I stay in %s", place);
     // Logger::Error("Hello my name is :%s", name);
     // Logger::Warning("Hello my name is :%s", name);
