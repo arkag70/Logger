@@ -5,6 +5,7 @@
 #include <pthread.h>
 #include <map>
 #include <filesystem>
+#include <cstring>
 extern char *__progname;
 
 #define LOG_INFO_PARSE_MAX_NAME_SIZE 30
@@ -25,6 +26,7 @@ struct LogInfo_t{
     uint16_t thread_id;
     uint16_t code;
     uint32_t severity;
+    char runnable_name[LOG_INFO_PARSE_MAX_NAME_SIZE];
     char file_name[2 * LOG_INFO_PARSE_MAX_NAME_SIZE];
     uint16_t line_number;
     uint32_t owner_pid;
@@ -40,8 +42,17 @@ struct LogInfo_t{
         thread_id = static_cast<uint16_t>(pthread_self());
     }
 
-    void getFilename(){
-        sprintf(file_name, "%s", __progname);
+    void getFilename(const char *src){
+        memcpy(file_name, src, strlen(src));
+        file_name[strlen(src)] = '\0';
+    }
+
+    void getRunnable(){
+        sprintf(runnable_name, "%s", __progname);
+    }
+
+    void getLine(int line){
+        line_number = line;
     }
 
     template<typename... Args>
@@ -66,13 +77,15 @@ class Logger{
         }
 
         template<typename... Args>
-        static void Fatal(const char* fmt, Args... args){
+        static void Fatal(int line, const char* src, const char* fmt, Args... args){
 
 
             getInstance().loginfo.getTimestamp();
             getInstance().loginfo.getThreadID();
             getInstance().loginfo.severity = FATAL;
-            getInstance().loginfo.getFilename();
+            getInstance().loginfo.getFilename(src);
+            getInstance().loginfo.getLine(line);
+            getInstance().loginfo.getRunnable();
             getInstance().loginfo.getData(fmt, args...);
 
             getInstance().log(fmt, args...);
@@ -114,11 +127,12 @@ class Logger{
         };
         
         ~Logger(){
-            std::string logfile_name = std::string(loginfo.file_name) + "_log.json";
+            std::string logfile_name = std::string(loginfo.runnable_name) + "_log.json";
             std::ofstream fout;
 
             if(std::filesystem::exists(logfile_name)){
                 fout.open(logfile_name, std::ios::app);
+                
             }
             else{
                 fout.open(logfile_name, std::ios::out);
@@ -132,7 +146,7 @@ class Logger{
         template<typename... Args>
         void log(const char* fmt, Args... args){
 
-            std::string logfile_name = std::string(loginfo.file_name) + "_log.json";
+            std::string logfile_name = std::string(loginfo.runnable_name) + "_log.json";
             std::ofstream fout;
 
             if(std::filesystem::exists(logfile_name)){
@@ -153,6 +167,7 @@ class Logger{
                 fout << "\t\t\"Timestamp\" : \"" << loginfo.timestamp << "\",\n";
                 fout << "\t\t\"Severity\" : \"" << Channels[loginfo.severity] << "\",\n";
                 fout << "\t\t\"file_name\" : \"" << loginfo.file_name << "\",\n";
+                fout << "\t\t\"line number\" : \"" << loginfo.line_number << "\",\n";
                 fout << "\t\t\"Thread ID\" : \"" << loginfo.thread_id << "\",\n";
                 fout << "\t\t\"Message\" : \"" << loginfo.data << "\"";
                 fout << "\n\t}";
@@ -164,3 +179,5 @@ class Logger{
 
 
 };
+
+#define LOG_FATAL(FMT, ...) Logger::Fatal(__LINE__, __FILE__, FMT, __VA_ARGS__)
