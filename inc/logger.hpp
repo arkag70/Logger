@@ -1,65 +1,11 @@
+#pragma once
 #include <iostream>
 #include <fstream>
-#include <cstdint>
-#include <ctime>
 #include <pthread.h>
 #include <map>
 #include <filesystem>
-#include <cstring>
-extern char *__progname;
-
-#define LOG_INFO_PARSE_MAX_NAME_SIZE 30
-enum LogChannel{
-    TRACE = 0, DEBUG, INFO, WARNING, ERROR, FATAL
-};
-
-std::string Channels[] = {
-    "TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"
-};
-
-struct LogInfo_t{
-    uint32_t size;
-    uint16_t sequence_number;
-    uint16_t data_size;
-    char data[LOG_INFO_PARSE_MAX_NAME_SIZE];
-    char timestamp[LOG_INFO_PARSE_MAX_NAME_SIZE];
-    uint16_t thread_id;
-    uint16_t code;
-    uint32_t severity;
-    char runnable_name[LOG_INFO_PARSE_MAX_NAME_SIZE];
-    char file_name[2 * LOG_INFO_PARSE_MAX_NAME_SIZE];
-    uint16_t line_number;
-    uint32_t owner_pid;
-    uint32_t flags;
-
-    void getTimestamp(){
-        std::time_t current_time = std::time(0);
-        std::tm* timestamp_tm = std::localtime(&current_time);
-        strftime(timestamp, 80, "%c", timestamp_tm);
-    }
-
-    void getThreadID(){
-        thread_id = static_cast<uint16_t>(pthread_self());
-    }
-
-    void getFilename(const char *src){
-        memcpy(file_name, src, strlen(src));
-        file_name[strlen(src)] = '\0';
-    }
-
-    void getRunnable(){
-        sprintf(runnable_name, "%s", __progname);
-    }
-
-    void getLine(int line){
-        line_number = line;
-    }
-
-    template<typename... Args>
-    void getData(const char* fmt, Args... args){
-        sprintf(data, fmt, args...);
-    }
-};
+#include "logConfig.hpp"
+#include "jsonSink.hpp"
 
 class Logger{
 
@@ -76,19 +22,15 @@ class Logger{
             return instance;
         }
 
+        static void registerLogger(){
+            std::string logFile = getInstance().log_file = std::string(__progname) + "_log.json";
+            getInstance().jsink.registerSink(logFile);
+        }
+
         template<typename... Args>
         static void Fatal(int line, const char* src, const char* fmt, Args... args){
 
-
-            getInstance().loginfo.getTimestamp();
-            getInstance().loginfo.getThreadID();
-            getInstance().loginfo.severity = FATAL;
-            getInstance().loginfo.getFilename(src);
-            getInstance().loginfo.getLine(line);
-            getInstance().loginfo.getRunnable();
-            getInstance().loginfo.getData(fmt, args...);
-
-            getInstance().log(fmt, args...);
+            getInstance().log(line, src, fmt, args...);
         }
 
         template<typename... Args>
@@ -120,60 +62,32 @@ class Logger{
         
         LogChannel channel;
         LogInfo_t loginfo;
-        std::map<std::string, int> file_records{};
+        std::string log_file{};
+        JsonSink jsink;
 
-        Logger():loginfo{}{
+
+        Logger():loginfo{}, log_file{}{
             loginfo.size = sizeof(LogInfo_t);
         };
         
         ~Logger(){
-            std::string logfile_name = std::string(loginfo.runnable_name) + "_log.json";
-            std::ofstream fout;
-
-            if(std::filesystem::exists(logfile_name)){
-                fout.open(logfile_name, std::ios::app);
-                
-            }
-            else{
-                fout.open(logfile_name, std::ios::out);
-            }
-            if(fout){
-                fout << "\n]";
-                fout.close();
-            }
+            
         }
 
         template<typename... Args>
-        void log(const char* fmt, Args... args){
+        void log(int line, const char *src, const char* fmt, Args... args){
 
+            loginfo.getTimestamp();
+            loginfo.getThreadID();
+            loginfo.severity = FATAL;
+            loginfo.getFilename(src);
+            loginfo.getLine(line);
+            loginfo.getRunnable();
+            loginfo.getData(fmt, args...);
             std::string logfile_name = std::string(loginfo.runnable_name) + "_log.json";
-            std::ofstream fout;
 
-            if(std::filesystem::exists(logfile_name)){
-                fout.open(logfile_name, std::ios::app);
-            }
-            else{
-                fout.open(logfile_name, std::ios::out);
-            }
-            if(fout){
-                file_records[logfile_name]++;
+            jsink.processMessage(loginfo);
 
-                if(file_records[logfile_name] == 1){
-                    fout << "[\n\t{\n";
-                }
-                else{
-                    fout << ",\n\t{\n";
-                }
-                fout << "\t\t\"Timestamp\" : \"" << loginfo.timestamp << "\",\n";
-                fout << "\t\t\"Severity\" : \"" << Channels[loginfo.severity] << "\",\n";
-                fout << "\t\t\"file_name\" : \"" << loginfo.file_name << "\",\n";
-                fout << "\t\t\"line number\" : \"" << loginfo.line_number << "\",\n";
-                fout << "\t\t\"Thread ID\" : \"" << loginfo.thread_id << "\",\n";
-                fout << "\t\t\"Message\" : \"" << loginfo.data << "\"";
-                fout << "\n\t}";
-
-                fout.close();
-            }
         }
         
 

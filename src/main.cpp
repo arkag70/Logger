@@ -16,6 +16,8 @@ void calculate(int a, int b){
 
 int main(){
 
+    Logger::registerLogger();
+    
     const char *name = "Arka";
     int age{26};
     const char *place = "Kolkata";
