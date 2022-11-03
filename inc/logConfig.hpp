@@ -6,6 +6,7 @@
 extern char *__progname;
 
 #define LOG_INFO_PARSE_MAX_NAME_SIZE 30
+
 enum LogChannel{
     TRACE = 0, DEBUG, INFO, WARNING, ERROR, FATAL
 };

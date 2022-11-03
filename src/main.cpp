@@ -1,35 +1,36 @@
 #include "logger.hpp"
 #include <thread>
 
-void calculate(int a, int b){
+void calculate(int a, int b, Logger &logger){
 
     int add = a+b;
-    LOG_FATAL("Sum : %d", add);
+    logger.LOG_FATAL("Sum : %d", add);
 
     int sub = a-b;
-    LOG_FATAL("Diff : %d", add);
+    logger.LOG_FATAL("Diff : %d", add);
 
     int pro = a*b;
-    LOG_FATAL("Prod : %d", pro);
+    logger.LOG_FATAL("Prod : %d", pro);
 
 }
 
 int main(){
 
-    Logger::registerLogger();
+    Logger logger{};
+    logger.registerLogger(JSONSINK);
     
     const char *name = "Arka";
     int age{26};
     const char *place = "Kolkata";
 
-    std::thread calc(calculate, 20, 15);
+    std::thread calc(calculate, 20, 15, std::ref(logger));
 
-    calculate(10, 5);
+    calculate(10, 5, logger);
 
 
-    LOG_FATAL("Hello my name is %s", name);
-    LOG_FATAL("I am %d years old", age);
-    LOG_FATAL("I stay in %s", place);
+    logger.LOG_FATAL("Hello my name is %s", name);
+    logger.LOG_FATAL("I am %d years old", age);
+    logger.LOG_FATAL("I stay in %s", place);
 
     calc.join();
 

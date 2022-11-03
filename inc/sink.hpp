@@ -4,6 +4,13 @@
 #include <string>
 #include "logConfig.hpp"
 
+enum SinkType{
+    JSONSINK = 0,
+    CSVSINK,
+    TXTSINK,
+    STDOUT
+};
+
 class Sink{
 
     public:
@@ -17,7 +24,7 @@ class Sink{
         Sink& operator=(const Sink &&src) = delete;
 
         Sink(){}
-        ~Sink(){}
+        virtual ~Sink(){}
     
     private:
 
