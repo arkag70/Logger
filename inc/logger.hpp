@@ -3,8 +3,6 @@
 #include <fstream>
 #include <pthread.h>
 #include <map>
-#include <filesystem>
-#include "logConfig.hpp"
 #include "jsonSink.hpp"
 
 class Logger{
@@ -20,13 +18,10 @@ class Logger{
         Logger(Logger &&src) = delete;
         Logger& operator=(Logger &&src) = delete;
 
-        // static Logger& getInstance(){
-            
-        //     static Logger instance;
-        //     return instance;
-        // }
+        void registerLogger(SinkType type, const char *label = ""){
 
-        void registerLogger(SinkType type){
+            loginfo.setLabel(label);
+
             log_file = std::string(__progname) + "_log.json";
             
             if(type == JSONSINK){
@@ -82,14 +77,12 @@ class Logger{
         template<typename... Args>
         void log(int line, const char *src, const char* fmt, Args... args){
 
-            loginfo.getTimestamp();
-            loginfo.getThreadID();
+            loginfo.setTimestamp();
+            loginfo.setThreadID();
             loginfo.severity = FATAL;
-            loginfo.getFilename(src);
-            loginfo.getLine(line);
-            loginfo.getRunnable();
-            loginfo.getData(fmt, args...);
-            std::string logfile_name = std::string(loginfo.runnable_name) + "_log.json";
+            loginfo.setFilename(src);
+            loginfo.setLine(line);
+            loginfo.setData(fmt, args...);
 
             sink->processMessage(loginfo);
 

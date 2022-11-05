@@ -7,7 +7,7 @@ void calculate(int a, int b, Logger &logger){
     logger.LOG_FATAL("Sum : %d", add);
 
     int sub = a-b;
-    logger.LOG_FATAL("Diff : %d", add);
+    logger.LOG_FATAL("Diff : %d", sub);
 
     int pro = a*b;
     logger.LOG_FATAL("Prod : %d", pro);
@@ -17,7 +17,7 @@ void calculate(int a, int b, Logger &logger){
 int main(){
 
     Logger logger{};
-    logger.registerLogger(JSONSINK);
+    logger.registerLogger(JSONSINK, "testLabel");
     
     const char *name = "Arka";
     int age{26};

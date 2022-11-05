@@ -1,6 +1,5 @@
 #pragma once
 #include "sink.hpp"
-#include "logConfig.hpp"
 
 class JsonSink : public Sink{
 
@@ -28,11 +27,11 @@ class JsonSink : public Sink{
                 if(firstJson){
                 
                     firstJson = false;
-                    fout << "\t\"" << info.runnable_name << "\" :{\n";
+                    fout << "\t\"" << info.label << "\" :{\n";
                 }
                 else{
 
-                    fout << ",\n\t\"" << info.runnable_name << "\" :{\n";
+                    fout << ",\n\t\"" << info.label << "\" :{\n";
                 }
                 
                 fout << "\t\t\"Timestamp\" : \"" << info.timestamp << "\",\n";

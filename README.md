@@ -2,78 +2,79 @@ This is header only library that logs data into a JSON file
 
 ```json
 {
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
 		"line number" : "7",
-		"Thread ID" : "960",
+		"Thread ID" : "37824",
 		"Message" : "Sum : 15"
 	},
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
 		"line number" : "10",
-		"Thread ID" : "960",
-		"Message" : "Diff : 15"
+		"Thread ID" : "37824",
+		"Message" : "Diff : 5"
 	},
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
 		"line number" : "13",
-		"Thread ID" : "960",
+		"Thread ID" : "37824",
 		"Message" : "Prod : 50"
 	},
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
-		"line number" : "30",
-		"Thread ID" : "960",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
+		"line number" : "31",
+		"Thread ID" : "37824",
 		"Message" : "Hello my name is Arka"
 	},
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
-		"line number" : "31",
-		"Thread ID" : "960",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
+		"line number" : "32",
+		"Thread ID" : "37824",
 		"Message" : "I am 26 years old"
 	},
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
-		"line number" : "32",
-		"Thread ID" : "960",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
+		"line number" : "33",
+		"Thread ID" : "37824",
 		"Message" : "I stay in Kolkata"
 	},
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
 		"line number" : "7",
-		"Thread ID" : "50752",
+		"Thread ID" : "22080",
 		"Message" : "Sum : 35"
 	},
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
 		"line number" : "10",
-		"Thread ID" : "50752",
-		"Message" : "Diff : 35"
+		"Thread ID" : "22080",
+		"Message" : "Diff : 5"
 	},
-	"test" :{
-		"Timestamp" : "Thu Nov  3 00:29:40 2022",
+	"testLabel" :{
+		"Timestamp" : "Sat Nov  5 16:03:00 2022",
 		"Severity" : "FATAL",
-		"file_name" : "/home/arkag70/arka/cpp_projects/logger/src/main.cpp",
+		"file_name" : "/home/arkag70/arka/cpp_projects/Logger/src/main.cpp",
 		"line number" : "13",
-		"Thread ID" : "50752",
+		"Thread ID" : "22080",
 		"Message" : "Prod : 300"
 	}
 }
+
 
 ```
