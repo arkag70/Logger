@@ -1,4 +1,5 @@
-This is header only library that logs data into a JSON file
+This is header only library that logs data into various file formats called Sinks. Currently supports JSON.
+Any type of Sinks (csv, txt, ...) can be defined inheriting from the class Sink (inc directory).
 
 ```json
 {
