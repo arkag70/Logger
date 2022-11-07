@@ -3,6 +3,7 @@
 #include <fstream>
 #include <pthread.h>
 #include <map>
+#include <mutex>
 #include "jsonSink.hpp"
 
 class Logger{
@@ -72,11 +73,14 @@ class Logger{
         LogChannel channel;
         LogInfo_t loginfo;
         std::string log_file{};
+        std::mutex mtx;
         Sink *sink;
 
         template<typename... Args>
         void log(int line, const char *src, const char* fmt, Args... args){
 
+            std::lock_guard<std::mutex> locker(mtx);
+            
             loginfo.setTimestamp();
             loginfo.setThreadID();
             loginfo.severity = FATAL;
